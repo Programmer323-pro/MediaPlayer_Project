@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>پخش فایل‌های مدیا از کامپیوتر</title>
+  <style>
+    body {
+      font-family: Tahoma, sans-serif;
+      background-color: #f8f8f8;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      color: #444;
+    }
+    .upload-area {
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 600px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .preview {
+      margin-top: 20px;
+    }
+    video, audio, img {
+      display: block;
+      margin: 10px auto;
+      max-width: 100%;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>پخش آنلاین فایل‌های مدیا از کامپیوتر</h1>
+
+  <div class="upload-area">
+    <input type="file" id="mediaInput" multiple accept="video/*,audio/*,image/*">
+    <div id="preview" class="preview"></div>
+  </div>
+
+  <script>
+    const mediaInput = document.getElementById('mediaInput');
+    const preview = document.getElementById('preview');
+
+    mediaInput.addEventListener('change', () => {
+      preview.innerHTML = "";
+      const files = mediaInput.files;
+
+      Array.from(files).forEach(file => {
+        const url = URL.createObjectURL(file);
+        let element;
+
+        if (file.type.startsWith('video/')) {
+          element = document.createElement('video');
+          element.controls = true;
+          element.src = url;
+        } else if (file.type.startsWith('audio/')) {
+          element = document.createElement('audio');
+          element.controls = true;
+          element.src = url;
+        } else if (file.type.startsWith('image/')) {
+          element = document.createElement('img');
+          element.src = url;
+        }
+
+        if (element) preview.appendChild(element);
+      });
+    });
+  </script>
+</body>
+</html>
